@@ -20,6 +20,7 @@ gh-pages/
 
 # Environment files (may contain secrets)
 .env
+.deploy-pi.env
 
 # Python virtual environments
 
