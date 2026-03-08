@@ -16,7 +16,6 @@ BRANCH="${BRANCH:-pi-deploy}"
 # --- Cross-compile ---
 echo "==> Checking out $BRANCH..."
 git checkout "$BRANCH"
-git pull origin "$BRANCH"
 
 echo "==> Cross-compiling for $TARGET (release)..."
 CARGO_TARGET_ARM_UNKNOWN_LINUX_MUSLEABIHF_LINKER=arm-unknown-linux-musleabihf-gcc \
