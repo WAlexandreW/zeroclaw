@@ -12,10 +12,20 @@ PI_HOST="${PI_HOST:?Set PI_HOST in .deploy-pi.env or environment}"
 PI_BIN="${PI_BIN:-/home/${PI_USER}/.local/bin/zeroclaw}"
 TARGET="${TARGET:-arm-unknown-linux-musleabihf}"
 BRANCH="${BRANCH:-pi-deploy}"
+MERGE_BRANCHES="${MERGE_BRANCHES:-}"
 
 # --- Cross-compile ---
 echo "==> Checking out $BRANCH..."
 git checkout "$BRANCH"
+
+if [ -n "$MERGE_BRANCHES" ]; then
+    echo "==> Merging updates from configured branches..."
+    for b in $MERGE_BRANCHES; do
+        echo "  -> Merging $b..."
+        git merge "$b" --no-edit || { echo "Merge conflict with $b! Aborting."; exit 1; }
+    done
+fi
+
 
 echo "==> Cross-compiling for $TARGET (release)..."
 CARGO_TARGET_ARM_UNKNOWN_LINUX_MUSLEABIHF_LINKER=arm-unknown-linux-musleabihf-gcc \
